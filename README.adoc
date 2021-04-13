@@ -1,0 +1,40 @@
+Simple Http Proxy
+=================
+
+KISS HTTP-only proxy, written in Go.
+
+Configuration is done in suckless-like way: Modify `config.go` and recompile.
+
+====
+_Example configuration_
+```go
+package main
+
+const (
+	// Two 10K allocations per connection. Pretty jumbo, it makes sense to set it lower
+    // if you have a lot of small writes.
+	BUFFER_PIPE = 10 * 1024
+
+	// Limit on URL length.
+	BUFFER_STATUS_LINE = 1024
+)
+
+func Config() ServerContext {
+	return ServerContext{
+		Routes: []Route{
+			{"cups", "cups-srv:631"},
+			{"megaprx", "proxytwo:8080"},
+			{"xample", "example.com:80"},
+		},
+		ListenAddress: ":8883",
+	}
+}
+
+```
+====
+
+Since this proxy doesn't modify anything inside a connection, apart from stripping first path segment, it won't usually work with regular HTTP clients without specifying Host header manually.
+
+====
+    curl 0:8883/xample/ -H 'Host: example.com' 
+====
