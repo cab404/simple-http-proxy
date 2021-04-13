@@ -11,23 +11,23 @@ _Example configuration_
 package main
 
 const (
-	// Two 10K allocations per connection. Pretty jumbo, it makes sense to set it lower
+    // Two 10K allocations per connection. Pretty jumbo, it makes sense to set it lower
     // if you have a lot of small writes.
-	BUFFER_PIPE = 10 * 1024
+    BUFFER_PIPE = 10 * 1024
 
-	// Limit on URL length.
-	BUFFER_STATUS_LINE = 1024
+    // Limit on URL length.
+    BUFFER_STATUS_LINE = 1024
 )
 
 func Config() ServerContext {
-	return ServerContext{
-		Routes: []Route{
-			{"cups", "cups-srv:631"},
-			{"megaprx", "proxytwo:8080"},
-			{"xample", "example.com:80"},
-		},
-		ListenAddress: ":8883",
-	}
+    return ServerContext{
+        Routes: []Route{
+            {"cups", "cups-srv:631"},
+            {"megaprx", "proxytwo:8080"},
+            {"xample", "example.com:80"},
+        },
+        ListenAddress: ":8883",
+    }
 }
 
 ```
